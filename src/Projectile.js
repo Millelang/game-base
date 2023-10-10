@@ -19,5 +19,11 @@ export default class Projectile {
     draw(context) {
         context.fillstyle = '#f00'
         context.fillRect(this.x, this.y, this.width, this.height)
+        if (this.game.debug) {
+            context.strokeRect(this.x, this.y, this.width, this.height)
+            context.fillstyle = 'black'
+            context.font = '12px Arial'
+            context.fillText(this.frameX, this.x, this.y - 5)
+        }
     }
 }
