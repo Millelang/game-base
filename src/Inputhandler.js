@@ -18,6 +18,9 @@ export default class Inputhandler {
             if (event.key === 'd') {
                 this.game.debug = !this.game.debug
             }
+            if (event.key === 'e') {
+                this.game.player.shoot()
+            }
         })
         window.addEventListener('keyup', (event) => {
             if (this.game.keys.indexOf(event.key) > -1) {
