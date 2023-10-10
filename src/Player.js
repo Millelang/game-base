@@ -1,3 +1,4 @@
+
 export default class Player {
     constructor(game) {
         this.game = game;
@@ -7,11 +8,20 @@ export default class Player {
         this.y = 100;
         this.speedX = 1;
         this.speedY = 0;
+        this.maxSpeed = 10;
     }
     
       update(deltaTime) {
-        this.x += this.speedX;
+        if (this.game.keys.includes('ArrowUp')) {
+          this.speedY = -this.maxSpeed;
+        } else if (this.game.keys.includes('ArrowDown')) {
+            this.speedY = this.maxSpeed;
+        } else {
+            this.speedY = 0;
+        }
+        this.y += this.speedY;
       }
+
 
       draw(context) {
         context.fillStyle = "#f00";
