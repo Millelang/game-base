@@ -18,12 +18,12 @@ export default class Player {
   
   update(deltaTime) {
 
-  
+    
     
     this.time++
     if ( this.y < 360 && (this.time == 60 || this.time == 30 || this.time ==20 || this.time == 40 || this.time == 10 || this.time == 50 ) ) {
      this.time = 0
-     this.y += 5
+     this.speedY += 1
      
     }
     console.log(this.time)
@@ -31,14 +31,15 @@ export default class Player {
       this.time = 0
     }
 
-
+    if (this.y == 360) {
+      this.speedY = 0
+    }
     
 
     if (this.game.keys.includes('ArrowUp')&& this.y == 360) {
-      this.y -= 50
-    } else {
-      this.speedY = 0;
-    }
+      this.speedY -= 5
+    } 
+
     this.y += this.speedY;
     if (this.game.keys.includes('ArrowLeft')) {
       this.speedX = -this.maxSpeed;

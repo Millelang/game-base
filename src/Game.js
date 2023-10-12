@@ -1,6 +1,7 @@
 import Player from './Player.js'
 import Inputhandler from './Inputhandler.js'
 import Userinterface from './Userinterface.js'
+import Krokodil from './Krokodil.js'
 export default class Game {
   constructor(width, height) {
     this.width = width
@@ -13,7 +14,9 @@ export default class Game {
     this.gravity = -10
     this.debug = false
     this.player = new Player(this)
-  
+    this.enemies = []
+    this.enemySpawnTimer = 0
+    this.enemyInterval = 1000
   }
   draw(context) {
     this.player.draw(context)
@@ -24,14 +27,25 @@ export default class Game {
     if (!this.gameOver) {
       this.gameTime += deltaTime
       
-    
+    if (this.enemySpawnTimer > this.enemyInterval && !this.gameOver) {
+      this.addEnemy()
+      this.enemySpawnTimer = 0
+    } else {
+      this.enemySpawnTimer += deltaTime
+    }
       
     }
+    this.enemies.forEach((enemy) => enemy.update(deltaTime))
+    this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion)
   }
 
   draw(context) {
     this.player.draw(context)
     this.Userinterface.draw(context)
-  
+    this.enemies.forEach((enemy) => enemy.draw(context))
   }
+  addEnemy() {
+    this.enemies.push(new Krokodil(this))
+  }
+
 }
