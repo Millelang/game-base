@@ -16,7 +16,7 @@ export default class Game {
     this.player = new Player(this)
     this.enemies = []
     this.enemySpawnTimer = 0
-    this.enemyInterval = 1000
+    this.enemyInterval = 10000
   }
   draw(context) {
     this.player.draw(context)
