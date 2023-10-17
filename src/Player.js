@@ -10,7 +10,7 @@ export default class Player {
     this.y = 360;
     this.speedX = 1;
     this.speedY = 0;
-    this.maxSpeed = 10;
+    this.maxSpeed = 5;
     this.time = 0
   }
 
@@ -23,10 +23,9 @@ export default class Player {
     this.time++
     if ( this.y < 360 && (this.time == 60 || this.time == 30 || this.time ==20 || this.time == 40 || this.time == 10 || this.time == 50 ) ) {
      this.time = 0
-     this.speedY += 1
+     this.speedY += 2
      
     }
-    console.log(this.time)
     if (this.time == 60) {
       this.time = 0
     }

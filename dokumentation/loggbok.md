@@ -11,3 +11,14 @@
 ### 2023-09-08
 * Skapat enemys (krokodiler i framtiden)
 * fixat hopp gravtiation grej
+
+
+### 2023-10-16
+ska göra plattformar och kollision
+* Skapade kollision funktion
+* Skapade nästan plattformar  Kom ihåg fixa plattformar
+
+
+### 2023-10-17
+måste fixa plattformar
+* Lektion 1 - försökte fixa plattformar men blir galen
