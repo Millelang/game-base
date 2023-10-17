@@ -6,8 +6,8 @@ export default class Platform extends Enemy {
         this.width = 100
         this.height = 20
         this.x = 900
-        this.y = 300
-        this.speedX = 1
+        this.y = 350
+        this.speedX = -1
         this.lives = 999
     }
 }

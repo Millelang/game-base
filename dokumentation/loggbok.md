@@ -22,3 +22,5 @@ ska göra plattformar och kollision
 ### 2023-10-17
 måste fixa plattformar
 * Lektion 1 - försökte fixa plattformar men blir galen
+* Lektion 2 - fixade platformar, kunde inte hitta
+* nästa lektion fixa så man kan stå på plattform och fixa grounded
