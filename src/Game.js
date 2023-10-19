@@ -19,9 +19,14 @@ export default class Game {
     this.enemies = []
     this.enemySpawnTimer = 0
     this.enemyInterval = 1000
-    this.platforms = []
-    this.platformtimer = 0
-    this.platforminterval = 2500
+    this.gravity = 1
+    this.ground = this.height - 60
+    this.platforms = [
+      new Platform(this, 0, this.ground, this.width, 100),
+      new Platform(this, this.width - 200, 280, 200, 20),
+      new Platform(this, 200, 200, 300, 20),
+    ]
+    
   }
 
   draw(context) {
@@ -29,9 +34,38 @@ export default class Game {
     this.Userinterface.draw(context)
     this.enemies.forEach((enemy) => enemy.draw(context))
     this.platforms.forEach((platform) => platform.draw(context))
+
+    
   }
 
   update(deltaTime) {
+
+
+
+
+
+    
+    this.player.grounded = false
+    this.platforms.forEach((platform) => {
+      let direction = this.checkCollisionDirection(this.player, platform)
+      if (
+        direction === 'bottom' &&
+        this.player.x + this.player.width > platform.x &&
+        this.player.x < platform.x + platform.width
+      ) {
+        this.player.grounded = true
+        this.player.speedY = 0
+        this.player.y = platform.y - this.player.height + 1
+      }
+
+      this.enemies.forEach((enemy) => {
+        if (this.checkCollisionDirection(enemy, platform) === 'bottom') {
+          enemy.speedY = 0
+          enemy.y = platform.y - enemy.height
+        }
+      })
+    })
+
     this.player.update(deltaTime)
     if (!this.gameOver) {
       this.gameTime += deltaTime
@@ -43,16 +77,9 @@ export default class Game {
         this.enemySpawnTimer += deltaTime
       }
 
-      if (this.platformtimer > this.platforminterval && !this.gameOver) {
-        this.addPlatform()
-        this.platformtimer = 0
-      } else {
-        this.platformtimer += deltaTime
-      }
+      
 
-      this.platforms.forEach((platform) => {
-        platform.update(deltaTime)
-      })
+      
 
       this.enemies.forEach((enemy) => {
         enemy.update(deltaTime)
@@ -69,18 +96,14 @@ export default class Game {
     }
     this.enemies.forEach((enemy) => enemy.update(deltaTime))
     this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion)
-    this.platforms.forEach((platform) => platform.update(deltaTime))
-    this.platforms = this.platforms.filter((platform) => !platform.markedForDeletion)
+   
   }
 
-  addPlatform() {
-    this.platforms.push(new Platform(this))
-  }
+  
 
   addEnemy() {
     this.enemies.push(new Krokodil(this))
   }
-// BLI INTE GALENBLI INTE GALENBLI INTE GALENBLI INTE GALENBLI INTE GALENBLI INTE GALENBLI INTE GALEN
   checkCollision(object1, object2) {
     return (
       object1.x < object2.x + object2.width &&
@@ -88,5 +111,53 @@ export default class Game {
       object1.y < object2.y + object2.height &&
       object1.height + object1.y > object2.y
     )
+  }
+
+  checkPlatformCollision(object, platform) {
+    if (
+      object.y + object.height >= platform.y &&
+      object.y < platform.y &&
+      object.x + object.width >= platform.x &&
+      object.x <= platform.x + platform.width
+    ) {
+      if (object.grounded && object.y + object.height > platform.y) {
+        object.speedY = 0
+        object.y = platform.y - object.height
+        object.grounded = true
+      }
+      return true
+    } else {
+      if (object.grounded && object.y + object.height < platform.y) {
+        object.grounded = false
+      }
+      return false
+    }
+  }
+  checkCollisionDirection(object1, object2) {
+    const vectorX =
+      object1.x + object1.width / 2 - (object2.x + object2.width / 2)
+    const vectorY =
+      object1.y + object1.height / 2 - (object2.y + object2.height / 2)
+
+    const halfWidths = object1.width / 2 + object2.width / 2
+    const halfHeights = object1.height / 2 + object2.height / 2
+
+    if (Math.abs(vectorX) < halfWidths && Math.abs(vectorY) < halfHeights) {
+      const offsetX = halfWidths - Math.abs(vectorX)
+      const offsetY = halfHeights - Math.abs(vectorY)
+      if (offsetX >= offsetY) {
+        if (vectorY > 0) {
+          return 'top'
+        } else {
+          return 'bottom'
+        }
+      } else {
+        if (vectorX > 0) {
+          return 'left'
+        } else {
+          return 'right'
+        }
+      }
+    }
   }
 }

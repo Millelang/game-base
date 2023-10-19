@@ -24,3 +24,8 @@ måste fixa plattformar
 * Lektion 1 - försökte fixa plattformar men blir galen
 * Lektion 2 - fixade platformar, kunde inte hitta
 * nästa lektion fixa så man kan stå på plattform och fixa grounded
+
+
+### 2023-10-19
+* Fixade plattformar och grounded
+* Påbörjat kamera funktion

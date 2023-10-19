@@ -10,42 +10,37 @@ export default class Player {
     this.y = 360;
     this.speedX = 1;
     this.speedY = 0;
-    this.maxSpeed = 5;
+    this.maxSpeed = 6;
     this.time = 0
-    this.grounded = false
+    this.grounded = true
+    this.jumpSpeed = 16
+    this.gameGravity = -2
+    this.jumpTimer = 0
+    this.jumpInterval = 600
   }
 
 
   
   update(deltaTime) {
 
-    if (this.grounded == true) {
+    
+    
+
+    if (this.grounded) {
       this.speedY = 0
-    }
-    
-    this.time++
-    if ( this.grounded == false && (this.time == 60 || this.time == 30 || this.time ==20 || this.time == 40 || this.time == 10 || this.time == 50 ) ) {
-     this.time = 0
-     this.speedY += 1
-     
-    }
-    if (this.time == 60) {
-      this.time = 0
+    } else {
+      this.speedY += this.game.gravity
     }
 
-    if (this.y > 360) {
-      this.grounded = true
-    }
-    if (this.y < 360) {
-      this.grounded = false
+    if (this.jumpTimer <= this.jumpInterval) {
+      this.jumpTimer += deltaTime
     }
     
 
-    if (this.game.keys.includes('ArrowUp')&& this.grounded == true) {
-      this.speedY -= 10
-    } 
+    if (this.game.keys.includes('ArrowUp')) {
+      this.jump()
+    }
 
-    this.y += this.speedY;
     if (this.game.keys.includes('ArrowLeft')) {
       this.speedX = -this.maxSpeed;
     } else if (this.game.keys.includes('ArrowRight')) {
@@ -54,7 +49,8 @@ export default class Player {
       this.speedX = 0;
     }
     this.x += this.speedX;
-
+    this.y += this.speedY;
+    
     this.projectile.forEach((projectile) => {
       projectile.update()
 
@@ -66,6 +62,15 @@ export default class Player {
 
   shoot() {
     this.projectile.push(new Projectile(this.game,this.x + this.width, this.y + this.height / 2))
+  }
+
+
+  jump() {
+    if (this.jumpTimer > this.jumpInterval && this.grounded) {
+      this.speedY = -this.jumpSpeed
+      this.jumpTimer = 0
+      this.grounded = false
+    }
   }
 
 
