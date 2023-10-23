@@ -2,7 +2,7 @@ export default class Enemy {
     constructor(game) {
       this.game = game
       this.x = 0
-      this.y = 0
+      this.y = game.ground - 32
       this.speedX = 0
       this.markedForDeletion = false
     }

@@ -3,6 +3,8 @@ import Inputhandler from './Inputhandler.js'
 import Userinterface from './Userinterface.js'
 import Krokodil from './Krokodil.js'
 import Platform from './Platform.js'
+import Camera from './Camera.js'
+import First from './levels/First.js'
 
 export default class Game {
   constructor(width, height) {
@@ -21,19 +23,23 @@ export default class Game {
     this.enemyInterval = 1000
     this.gravity = 1
     this.ground = this.height - 60
-    this.platforms = [
-      new Platform(this, 0, this.ground, this.width, 100),
-      new Platform(this, this.width - 200, 280, 200, 20),
-      new Platform(this, 200, 200, 300, 20),
-    ]
+    
+    this.camera = new Camera(this, this.player.x, this.player.y, 0, 0)
+    this.level = new First(this)
+
     
   }
 
+
+
+
   draw(context) {
-    this.player.draw(context)
     this.Userinterface.draw(context)
+    this.camera.apply(context)
+    this.player.draw(context)
+    this.level.draw(context)
     this.enemies.forEach((enemy) => enemy.draw(context))
-    this.platforms.forEach((platform) => platform.draw(context))
+    this.camera.reset(context)
 
     
   }
@@ -46,7 +52,7 @@ export default class Game {
 
     
     this.player.grounded = false
-    this.platforms.forEach((platform) => {
+    this.level.platforms .forEach((platform) => {
       let direction = this.checkCollisionDirection(this.player, platform)
       if (
         direction === 'bottom' &&
@@ -63,7 +69,13 @@ export default class Game {
           enemy.speedY = 0
           enemy.y = platform.y - enemy.height
         }
-      })
+        else {
+          enemy.speedY += this.gravity
+          
+        }
+      }
+      )
+
     })
 
     this.player.update(deltaTime)
@@ -96,7 +108,7 @@ export default class Game {
     }
     this.enemies.forEach((enemy) => enemy.update(deltaTime))
     this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion)
-   
+    this.camera.update(this.player)
   }
 
   

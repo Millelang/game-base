@@ -5,7 +5,7 @@ export default class Krokodil extends Enemy {
         super(game)
         this.width = 32
         this.height = 32
-        this.x = 900
+        this.x = 1500
         this.y = 390
         this.speedX = Math.random() * -1.5 - 0.5
         this.lives = 2

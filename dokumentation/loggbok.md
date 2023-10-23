@@ -29,3 +29,9 @@ måste fixa plattformar
 ### 2023-10-19
 * Fixade plattformar och grounded
 * Påbörjat kamera funktion
+
+### 2023-10-23
+* Fixade kamera funktion
+* Skapade levels och map.js
+* Nästa gång fixa enemies (dem är buggade)
+* Goal nästa gång
