@@ -35,3 +35,7 @@ måste fixa plattformar
 * Skapade levels och map.js
 * Nästa gång fixa enemies (dem är buggade)
 * Goal nästa gång
+
+
+### 2023-10-24
+* Gjrode så man kan döda fiender genom att hoppa på dem

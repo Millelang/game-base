@@ -5,16 +5,19 @@ export default class Projectile {
         this.height = 4
         this.x = x
         this.y = y
+        this.speedY = 0
         this.speed = 5
         this.damage = 1
         this.markedForDeletion = false
 
     }
     update() {
+        
         this.x += this.speed
         if (this.x > this.game.width) {
             this.markedForDeletion = true
         }
+
     }
     draw(context) {
         context.fillstyle = '#f00'

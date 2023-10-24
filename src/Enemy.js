@@ -4,6 +4,7 @@ export default class Enemy {
       this.x = 0
       this.y = game.ground - 32
       this.speedX = 0
+      this.speedY = 0
       this.markedForDeletion = false
     }
   

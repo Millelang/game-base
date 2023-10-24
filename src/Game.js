@@ -2,10 +2,9 @@ import Player from './Player.js'
 import Inputhandler from './Inputhandler.js'
 import Userinterface from './Userinterface.js'
 import Krokodil from './Krokodil.js'
-import Platform from './Platform.js'
 import Camera from './Camera.js'
 import First from './levels/First.js'
-
+import Projectile from './Projectile.js'
 export default class Game {
   constructor(width, height) {
     this.width = width
@@ -20,14 +19,14 @@ export default class Game {
     this.player = new Player(this)
     this.enemies = []
     this.enemySpawnTimer = 0
-    this.enemyInterval = 1000
+    this.enemyInterval = 5000
     this.gravity = 1
     this.ground = this.height - 60
-    
+
     this.camera = new Camera(this, this.player.x, this.player.y, 0, 0)
     this.level = new First(this)
 
-    
+
   }
 
 
@@ -41,7 +40,7 @@ export default class Game {
     this.enemies.forEach((enemy) => enemy.draw(context))
     this.camera.reset(context)
 
-    
+
   }
 
   update(deltaTime) {
@@ -49,10 +48,19 @@ export default class Game {
 
 
 
+    this.enemies.forEach((enemy) => {
+      if (this.checkCollision(this.player, enemy)) {
+        if (this.player.speedY > 0) {
+          enemy.markedForDeletion = true
+          this.player.speedY = -this.player.jumpSpeed
+        } else {
+          this.gameOver = true
+        }
+      }
+    })
 
-    
     this.player.grounded = false
-    this.level.platforms .forEach((platform) => {
+    this.level.platforms.forEach((platform) => {
       let direction = this.checkCollisionDirection(this.player, platform)
       if (
         direction === 'bottom' &&
@@ -71,7 +79,7 @@ export default class Game {
         }
         else {
           enemy.speedY += this.gravity
-          
+
         }
       }
       )
@@ -89,15 +97,13 @@ export default class Game {
         this.enemySpawnTimer += deltaTime
       }
 
-      
 
-      
+
+
 
       this.enemies.forEach((enemy) => {
         enemy.update(deltaTime)
-        if (this.checkCollision(this.player, enemy)) {
-          this.gameOver = true
-        }
+
         this.player.projectile.forEach((projectile) => {
           if (this.checkCollision(projectile, enemy)) {
             enemy.markedForDeletion = true
@@ -111,7 +117,8 @@ export default class Game {
     this.camera.update(this.player)
   }
 
-  
+
+
 
   addEnemy() {
     this.enemies.push(new Krokodil(this))
