@@ -1,5 +1,5 @@
 import Projectile from "./Projectile";
-
+import Playerimage from "./assets/sprites/haxa.png"
 export default class Player {
   constructor(game) {
     this.projectile = []
@@ -17,14 +17,27 @@ export default class Player {
     this.gameGravity = -2
     this.jumpTimer = 0
     this.jumpInterval = 600
+
+    const image = new Image()
+    image.src = Playerimage
+    this.image = image
+
+    this.frameX = 0
+    this.frameY = 1
+    this.maxFrame = 8
+    this.fps = 20
+    this.timer = 0
+    this.interval = 1000 / this.fps
+
+    this.flip = false
   }
 
 
-  
+
   update(deltaTime) {
 
-    
-    
+
+
 
     if (this.grounded) {
       this.speedY = 0
@@ -35,7 +48,7 @@ export default class Player {
     if (this.jumpTimer <= this.jumpInterval) {
       this.jumpTimer += deltaTime
     }
-    
+
 
     if (this.game.keys.includes('ArrowUp')) {
       this.jump()
@@ -48,9 +61,29 @@ export default class Player {
     } else {
       this.speedX = 0;
     }
+
+
+
     this.x += this.speedX;
     this.y += this.speedY;
-    
+
+    if (this.speedX < 0) {
+      this.flip = true
+    } else if (this.speedX > 0) {
+      this.flip = false
+    }
+    if (this.timer > this.interval) {
+      this.frameX++
+      this.timer = 0
+    } else {
+      this.timer += deltaTime
+    }
+    if (this.frameX >= this.maxFrame) {
+      this.frameX = 0
+    }
+
+
+
     this.projectile.forEach((projectile) => {
       projectile.update()
 
@@ -61,7 +94,7 @@ export default class Player {
   }
 
   shoot() {
-    this.projectile.push(new Projectile(this.game,this.x + this.width, this.y + this.height / 2))
+    this.projectile.push(new Projectile(this.game, this.x + this.width, this.y + this.height / 2))
   }
 
 
@@ -79,6 +112,26 @@ export default class Player {
     context.fillRect(this.x, this.y, this.width, this.height);
     this.projectile.forEach((projectile) => {
       projectile.draw(context)
+
+
+
+      if (this.flip) {
+        context.save()
+        context.scale(-1, 1)
+      }
+
+      context.drawImage(
+        this.image,
+        this.frameX * this.width,
+        this.frameY * this.height - 14,
+        this.width,
+        this.height,
+        this.flip ? this.x * -1 - this.width : this.x,
+        this.y,
+        this.width,
+        this.height
+      )
+
     })
 
 

@@ -18,6 +18,7 @@ export default class Game {
     this.debug = false
     this.player = new Player(this)
     this.enemies = []
+    this.gameTime = 0
     this.enemySpawnTimer = 0
     this.enemyInterval = 5000
     this.gravity = 1
@@ -46,7 +47,7 @@ export default class Game {
   update(deltaTime) {
 
 
-
+    this.gameTime +=0.1
 
     this.enemies.forEach((enemy) => {
       if (this.checkCollision(this.player, enemy)) {
