@@ -23,8 +23,8 @@ export default class Player {
     this.image = image
 
     this.frameX = 0
-    this.frameY = 1
-    this.maxFrame = 8
+    this.frameY = 0
+    this.maxFrame = 1
     this.fps = 20
     this.timer = 0
     this.interval = 1000 / this.fps
@@ -112,27 +112,19 @@ export default class Player {
     context.fillRect(this.x, this.y, this.width, this.height);
     this.projectile.forEach((projectile) => {
       projectile.draw(context)
+    })  
 
 
 
-      if (this.flip) {
-        context.save()
-        context.scale(-1, 1)
-      }
+    if (this.flip) {
+      context.save()
+      
+    }
 
-      context.drawImage(
-        this.image,
-        this.frameX * this.width,
-        this.frameY * this.height - 14,
-        this.width,
-        this.height,
-        this.flip ? this.x * -1 - this.width : this.x,
-        this.y,
-        this.width,
-        this.height
-      )
+    context.drawImage(this.image, this.x-this.width, this.y -this.height)
 
-    })
+    if (this.flip)
+      context.restore()
 
 
   }
