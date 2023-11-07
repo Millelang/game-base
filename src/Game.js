@@ -5,6 +5,7 @@ import Krokodil from './Krokodil.js'
 import Camera from './Camera.js'
 import First from './levels/First.js'
 import Projectile from './Projectile.js'
+import Background from './Background.js'
 export default class Game {
   constructor(width, height) {
     this.width = width
@@ -19,6 +20,7 @@ export default class Game {
     this.player = new Player(this)
     this.enemies = []
     this.gameTime = 0
+    this.background = new Background(this)
     this.enemySpawnTimer = 0
     this.enemyInterval = 5000
     this.gravity = 1
@@ -40,12 +42,15 @@ export default class Game {
     this.level.draw(context)
     this.enemies.forEach((enemy) => enemy.draw(context))
     this.camera.reset(context)
+    this.background.draw
 
 
   }
 
   update(deltaTime) {
 
+
+    this.background.update
 
     this.gameTime +=0.1
 

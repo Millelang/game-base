@@ -7,7 +7,7 @@ export default class First extends Map {
     super(game, 30000, 500)
 
     
-    this.addPlatform(new Platform(game, 0, 450-32, 40000, 500))
+    this.addPlatform(new Platform(game, 0, 450-32, 4000, 500))
   
     this.addPlatform(new Platform(game, 0, 380, 200, 50))
     this.addPlatform(new Platform(game, 540, 280, 200, 20))
