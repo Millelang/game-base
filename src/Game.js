@@ -6,11 +6,13 @@ import Camera from './Camera.js'
 import First from './levels/First.js'
 import Projectile from './Projectile.js'
 import Background from './Background.js'
+import Powerup from './Powerup.js'
 export default class Game {
   constructor(width, height) {
     this.width = width
     this.height = height
     this.keys = []
+    this.Powerups = []
     this.enemies = []
     this.gameOver = false
     this.input = new Inputhandler(this)
@@ -36,23 +38,26 @@ export default class Game {
 
 
   draw(context) {
+    this.background.draw(context)
     this.Userinterface.draw(context)
     this.camera.apply(context)
     this.player.draw(context)
     this.level.draw(context)
     this.enemies.forEach((enemy) => enemy.draw(context))
+    this.Powerups.forEach((Powerup) => Powerup.draw(context))
     this.camera.reset(context)
-    this.background.draw
 
 
   }
 
   update(deltaTime) {
 
+  
+    this.Powerups.forEach((Powerup) => Powerup.update(deltaTime))
 
     this.background.update
 
-    this.gameTime +=0.1
+    this.gameTime += 0.1
 
     this.enemies.forEach((enemy) => {
       if (this.checkCollision(this.player, enemy)) {
@@ -103,12 +108,20 @@ export default class Game {
         this.enemySpawnTimer += deltaTime
       }
 
+      this.Powerups.forEach((Powerup) => {
+        if (this.checkCollision(this.player, Powerup)) {
+          this.player.lives += 1
+          Powerup.markedForDeletion = true
+        }
+      })
+  
 
-
-
-
+      
       this.enemies.forEach((enemy) => {
         enemy.update(deltaTime)
+        if (enemy.markedForDeletion == true) {
+          this.Powerups.push(new Powerup(this, enemy.x, enemy.y, enemy.spawn))
+        }
 
         this.player.projectile.forEach((projectile) => {
           if (this.checkCollision(projectile, enemy)) {
@@ -120,6 +133,7 @@ export default class Game {
     }
     this.enemies.forEach((enemy) => enemy.update(deltaTime))
     this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion)
+    this.Powerups = this.Powerups.filter((Powerup) => !Powerup.markedForDeletion)
     this.camera.update(this.player)
   }
 

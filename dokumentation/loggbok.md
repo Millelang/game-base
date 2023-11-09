@@ -39,3 +39,12 @@ måste fixa plattformar
 
 ### 2023-10-24
 * Gjrode så man kan döda fiender genom att hoppa på dem
+
+### 2023-11-08
+* FIxade sprite animation och nästan paralax bakgrund
+
+
+### 2023-11-09
+* Fixade paralax bakgrund
+* Importerade sprites, skapade powerups och typ katter
+* Nästa gång sätt igång med plattformar ( dem riktiga) och katter osv

@@ -1,7 +1,7 @@
 import Layer from './Layer'
-import skyImage from './assets/layers/bakgrund2.png'
-import middleImage from './assets/layers/moln.png'
-import groundImage from './assets/layers/ground_layer.png'
+import skyImage from './assets/layers/BG.png'
+import middleImage from './assets/layers/Trees.png'
+import groundImage from './assets/layers/Water.png'
 
 export default class Background {
   constructor(game) {
