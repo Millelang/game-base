@@ -7,6 +7,8 @@ import First from './levels/First.js'
 import Projectile from './Projectile.js'
 import Background from './Background.js'
 import Powerup from './Powerup.js'
+import Cat from './Cat.js'
+import Brick from './Bricks.js'
 export default class Game {
   constructor(width, height) {
     this.width = width
@@ -15,22 +17,29 @@ export default class Game {
     this.Powerups = []
     this.enemies = []
     this.gameOver = false
+    this.cats = []
+    this.cat = new Cat(this)
+   this.bricks = []
+   this.brick = new Brick(this)
     this.input = new Inputhandler(this)
     this.Userinterface = new Userinterface(this)
     this.gravity = -10
     this.debug = false
     this.player = new Player(this)
-    this.enemies = []
     this.gameTime = 0
     this.background = new Background(this)
     this.enemySpawnTimer = 0
     this.enemyInterval = 5000
     this.gravity = 1
     this.ground = this.height - 60
+    this.brickheight = 100
 
     this.camera = new Camera(this, this.player.x, this.player.y, 0, 0)
     this.level = new First(this)
-
+    this.cats.push(new Cat(this, 100, this.ground))
+    this.cats.push(new Cat(this, 1000, this.ground))
+    this.cats.push(new Cat(this, 2000, this.ground))
+    this.bricks.push(new Brick(this,400, this.ground -this.brickheight))
 
   }
 
@@ -38,21 +47,29 @@ export default class Game {
 
 
   draw(context) {
-    this.background.draw(context)
-    this.Userinterface.draw(context)
     this.camera.apply(context)
+    this.background.draw(context)
+    
     this.player.draw(context)
     this.level.draw(context)
     this.enemies.forEach((enemy) => enemy.draw(context))
     this.Powerups.forEach((Powerup) => Powerup.draw(context))
+    this.cats.forEach((cat) => cat.draw(context))
+    this.bricks.forEach((brick) => brick.draw(context))
     this.camera.reset(context)
-
-
+    
+    this.Userinterface.draw(context)
   }
 
   update(deltaTime) {
-
   
+    this.bricks.forEach((brick) => {
+    
+    })
+    let x = 0
+    x++
+    if (x == 1000) { this.player.powerup = false}  
+
     this.Powerups.forEach((Powerup) => Powerup.update(deltaTime))
 
     this.background.update
@@ -71,6 +88,32 @@ export default class Game {
     })
 
     this.player.grounded = false
+
+    this.bricks.forEach((brick) => {
+      let direction = this.checkCollisionDirection(this.player, brick)
+      if (
+        direction === 'bottom' &&
+        this.player.x + this.player.width > brick.x &&
+        this.player.x < brick.x + brick.width
+      ) {
+        this.player.grounded = true
+        this.player.speedY = 0
+        this.player.y = brick.y - this.player.height + 1
+      }
+
+      this.enemies.forEach((enemy) => {
+        if (this.checkCollisionDirection(enemy, brick) === 'bottom') {
+          enemy.speedY = 0
+          enemy.y = brick.y - enemy.height
+        }
+        else {
+          enemy.speedY += this.gravity
+
+        }
+      }
+      )
+     })
+
     this.level.platforms.forEach((platform) => {
       let direction = this.checkCollisionDirection(this.player, platform)
       if (
@@ -110,12 +153,12 @@ export default class Game {
 
       this.Powerups.forEach((Powerup) => {
         if (this.checkCollision(this.player, Powerup)) {
-          this.player.lives += 1
+          this.player.powerup = true
           Powerup.markedForDeletion = true
         }
       })
   
-
+      
       
       this.enemies.forEach((enemy) => {
         enemy.update(deltaTime)
@@ -150,6 +193,28 @@ export default class Game {
       object1.y < object2.y + object2.height &&
       object1.height + object1.y > object2.y
     )
+  }
+
+
+  checkBrickCollision(object, brick) {
+    if (
+      object.y + object.height >= brick.y &&
+      object.y < brick.y &&
+      object.x + object.width >= brick.x &&
+      object.x <= brick.x + brick.width
+    ) {
+      if (object.grounded && object.y + object.height > brick .y) {
+        object.speedY = 0
+        object.y = brick.y - object.height
+        object.grounded = true
+      }   
+      return true
+    } else {
+      if (object.grounded && object.y + object.height < brick.y) {
+        object.grounded = false
+      }
+      return false
+    }
   }
 
   checkPlatformCollision(object, platform) {

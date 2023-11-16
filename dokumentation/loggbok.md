@@ -48,3 +48,7 @@ måste fixa plattformar
 * Fixade paralax bakgrund
 * Importerade sprites, skapade powerups och typ katter
 * Nästa gång sätt igång med plattformar ( dem riktiga) och katter osv
+
+### 2023-11-13
+*Gjorde så att powerupen gör så att man kan skjuta
+* SPawnade katter

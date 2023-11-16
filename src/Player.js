@@ -30,6 +30,7 @@ export default class Player {
     this.interval = 1000 / this.fps
 
     this.flip = false
+    this.powerup = false
   }
 
 
@@ -94,7 +95,9 @@ export default class Player {
   }
 
   shoot() {
+    if (this.powerup == true) {
     this.projectile.push(new Projectile(this.game, this.x + this.width, this.y + this.height / 2))
+    }
   }
 
 
