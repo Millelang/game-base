@@ -38,7 +38,7 @@ export default class Player {
   update(deltaTime) {
 
 
-
+    
 
     if (this.grounded) {
       this.speedY = 0

@@ -13,6 +13,10 @@ export default class Projectile {
     }
     update() {
         
+        for (let k = 0; k < 1; k+=0.1) {
+            this.speedY = Math.sin(k)*10
+        }
+        this.y += this.speedY
         this.x += this.speed
         if (this.x > this.game.width) {
             this.markedForDeletion = true

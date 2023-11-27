@@ -52,3 +52,6 @@ måste fixa plattformar
 ### 2023-11-13
 *Gjorde så att powerupen gör så att man kan skjuta
 * SPawnade katter
+
+### 2023-11-16
+* Fixade katter, kartan och platforma nästa gång fixa så att platformarna sjunker

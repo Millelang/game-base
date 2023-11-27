@@ -36,10 +36,11 @@ export default class Game {
 
     this.camera = new Camera(this, this.player.x, this.player.y, 0, 0)
     this.level = new First(this)
-    this.cats.push(new Cat(this, 100, this.ground))
+    this.cats.push(new Cat(this, 490, this.ground -this.brickheight + this.cat.height))
     this.cats.push(new Cat(this, 1000, this.ground))
     this.cats.push(new Cat(this, 2000, this.ground))
     this.bricks.push(new Brick(this,400, this.ground -this.brickheight))
+    this.bricks.push(new Brick(this,1050, this.ground -this.brickheight))
 
   }
 
@@ -63,9 +64,7 @@ export default class Game {
 
   update(deltaTime) {
   
-    this.bricks.forEach((brick) => {
-    
-    })
+    this.bricks.forEach((brick) => { brick.update(deltaTime) })
     let x = 0
     x++
     if (x == 1000) { this.player.powerup = false}  
