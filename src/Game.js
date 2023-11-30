@@ -31,13 +31,14 @@ export default class Game {
     this.enemySpawnTimer = 0
     this.enemyInterval = 5000
     this.gravity = 1
+    this.catcount =0
     this.ground = this.height - 60
     this.brickheight = 100
 
     this.camera = new Camera(this, this.player.x, this.player.y, 0, 0)
     this.level = new First(this)
-    this.cats.push(new Cat(this, 490, this.ground -this.brickheight + this.cat.height))
-    this.cats.push(new Cat(this, 1000, this.ground))
+    this.cats.push(new Cat(this, 490, this.ground -this.brickheight ))
+    this.cats.push(new Cat(this, 1140, this.ground-this.brickheight))
     this.cats.push(new Cat(this, 2000, this.ground))
     this.bricks.push(new Brick(this,400, this.ground -this.brickheight))
     this.bricks.push(new Brick(this,1050, this.ground -this.brickheight))
@@ -64,6 +65,19 @@ export default class Game {
 
   update(deltaTime) {
   
+    this.cats.forEach((cat) => { cat.update(deltaTime)
+    if(this.checkCollision(this.player,cat)) {
+      this.cat.markedForDeletion = true
+      this.catcount += 1
+      console.log("hit")
+    }
+    
+    })
+
+
+
+
+
     this.bricks.forEach((brick) => { brick.update(deltaTime) })
     let x = 0
     x++
@@ -176,6 +190,7 @@ export default class Game {
     this.enemies.forEach((enemy) => enemy.update(deltaTime))
     this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion)
     this.Powerups = this.Powerups.filter((Powerup) => !Powerup.markedForDeletion)
+    this.cats = this.cats.filter((cat) => !cat.markedForDeletion)
     this.camera.update(this.player)
   }
 

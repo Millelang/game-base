@@ -55,3 +55,6 @@ måste fixa plattformar
 
 ### 2023-11-16
 * Fixade katter, kartan och platforma nästa gång fixa så att platformarna sjunker
+
+### 2023-11-30
+* Fixade kartan, platformar och katter, nästa gång fixa så att man kan plocka upp katterna och fixa så att fienderna är normala.
