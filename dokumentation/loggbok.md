@@ -58,3 +58,6 @@ måste fixa plattformar
 
 ### 2023-11-30
 * Fixade kartan, platformar och katter, nästa gång fixa så att man kan plocka upp katterna och fixa så att fienderna är normala.
+
+#### runda 2
+fixade katterna, winscreen , projectiles, det enda som är kvar är att fixa fiender

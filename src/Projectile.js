@@ -13,9 +13,8 @@ export default class Projectile {
     }
     update() {
         
-        for (let k = 0; k < 1; k+=0.1) {
-            this.speedY = Math.sin(k)*10
-        }
+        this.y = Math.sin(this.x * 0.1) * 10 + this.y
+
         this.y += this.speedY
         this.x += this.speed
         if (this.x > this.game.width) {
@@ -24,7 +23,7 @@ export default class Projectile {
 
     }
     draw(context) {
-        context.fillstyle = '#f00'
+        context.fillstyle = '#f00#FC8A17'
         context.fillRect(this.x, this.y, this.width, this.height)
         if (this.game.debug) {
             context.strokeRect(this.x, this.y, this.width, this.height)

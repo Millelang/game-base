@@ -19,8 +19,8 @@ export default class Game {
     this.gameOver = false
     this.cats = []
     this.cat = new Cat(this)
-   this.bricks = []
-   this.brick = new Brick(this)
+    this.bricks = []
+    this.brick = new Brick(this)
     this.input = new Inputhandler(this)
     this.Userinterface = new Userinterface(this)
     this.gravity = -10
@@ -31,17 +31,19 @@ export default class Game {
     this.enemySpawnTimer = 0
     this.enemyInterval = 5000
     this.gravity = 1
-    this.catcount =0
+    this.catcount = 0
+    this.gamewin = false
     this.ground = this.height - 60
     this.brickheight = 100
-
+    this.deathbarrier = 500
     this.camera = new Camera(this, this.player.x, this.player.y, 0, 0)
     this.level = new First(this)
-    this.cats.push(new Cat(this, 490, this.ground -this.brickheight ))
-    this.cats.push(new Cat(this, 1140, this.ground-this.brickheight))
-    this.cats.push(new Cat(this, 2000, this.ground))
-    this.bricks.push(new Brick(this,400, this.ground -this.brickheight))
-    this.bricks.push(new Brick(this,1050, this.ground -this.brickheight))
+    this.cats.push(new Cat(this, 450, this.ground - this.brickheight - this.cat.height))
+    this.cats.push(new Cat(this, 1100, this.ground - this.brickheight - this.cat.height))
+    this.cats.push(new Cat(this, 2550, this.ground - this.brickheight - this.cat.height))
+    this.bricks.push(new Brick(this, 400, this.ground - this.brickheight))
+    this.bricks.push(new Brick(this, 1050, this.ground - this.brickheight))
+    this.bricks.push(new Brick(this, 2500, this.ground - this.brickheight))
 
   }
 
@@ -51,7 +53,7 @@ export default class Game {
   draw(context) {
     this.camera.apply(context)
     this.background.draw(context)
-    
+
     this.player.draw(context)
     this.level.draw(context)
     this.enemies.forEach((enemy) => enemy.draw(context))
@@ -59,19 +61,24 @@ export default class Game {
     this.cats.forEach((cat) => cat.draw(context))
     this.bricks.forEach((brick) => brick.draw(context))
     this.camera.reset(context)
-    
+
     this.Userinterface.draw(context)
   }
 
   update(deltaTime) {
-  
-    this.cats.forEach((cat) => { cat.update(deltaTime)
-    if(this.checkCollision(this.player,cat)) {
-      this.cat.markedForDeletion = true
-      this.catcount += 1
-      console.log("hit")
-    }
-    
+
+    if (this.catcount == 3) { this.gamewin = true }
+
+    if (this.player.y > this.deathbarrier) { this.gameOver = true }
+
+    this.cats.forEach((cat) => {
+      cat.update(deltaTime)
+      if (this.checkCollision(this.player, cat)) {
+        cat.markedForDeletion = true
+        this.catcount += 1
+        console.log("hit")
+      }
+
     })
 
 
@@ -81,7 +88,7 @@ export default class Game {
     this.bricks.forEach((brick) => { brick.update(deltaTime) })
     let x = 0
     x++
-    if (x == 1000) { this.player.powerup = false}  
+    if (x == 1000) { this.player.powerup = false }
 
     this.Powerups.forEach((Powerup) => Powerup.update(deltaTime))
 
@@ -125,7 +132,7 @@ export default class Game {
         }
       }
       )
-     })
+    })
 
     this.level.platforms.forEach((platform) => {
       let direction = this.checkCollisionDirection(this.player, platform)
@@ -170,9 +177,9 @@ export default class Game {
           Powerup.markedForDeletion = true
         }
       })
-  
-      
-      
+
+
+
       this.enemies.forEach((enemy) => {
         enemy.update(deltaTime)
         if (enemy.markedForDeletion == true) {
@@ -217,11 +224,11 @@ export default class Game {
       object.x + object.width >= brick.x &&
       object.x <= brick.x + brick.width
     ) {
-      if (object.grounded && object.y + object.height > brick .y) {
+      if (object.grounded && object.y + object.height > brick.y) {
         object.speedY = 0
         object.y = brick.y - object.height
         object.grounded = true
-      }   
+      }
       return true
     } else {
       if (object.grounded && object.y + object.height < brick.y) {
