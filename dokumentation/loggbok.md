@@ -61,3 +61,6 @@ måste fixa plattformar
 
 #### runda 2
 fixade katterna, winscreen , projectiles, det enda som är kvar är att fixa fiender
+
+#### 2023-12-04
+Gjorde klart allt

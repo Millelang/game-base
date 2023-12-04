@@ -1,3 +1,4 @@
+import boll from './assets/sprites/fireball.png'
 export default class Projectile {
     constructor(game, x, y) {
         this.game = game
@@ -9,6 +10,9 @@ export default class Projectile {
         this.speed = 5
         this.damage = 1
         this.markedForDeletion = false
+        const image = new Image()
+        image.src = boll
+        this.image = image
 
     }
     update() {
@@ -17,14 +21,13 @@ export default class Projectile {
 
         this.y += this.speedY
         this.x += this.speed
-        if (this.x > this.game.width) {
-            this.markedForDeletion = true
-        }
+       
 
     }
     draw(context) {
-        context.fillstyle = '#f00#FC8A17'
-        context.fillRect(this.x, this.y, this.width, this.height)
+        context.drawImage(this.image, this.x,this.y)
+
+       
         if (this.game.debug) {
             context.strokeRect(this.x, this.y, this.width, this.height)
             context.fillstyle = 'black'
