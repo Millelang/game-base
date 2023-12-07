@@ -18,6 +18,9 @@ export default class Inputhandler {
             if (event.key === 'd') {
                 this.game.debug = !this.game.debug
             }
+            if (event.key === 'Escape') {
+                this.game.menu = !this.game.menu
+            }
             if (event.key === 'e') {
                 this.game.player.shoot()
             }
