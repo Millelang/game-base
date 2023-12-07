@@ -6,6 +6,9 @@ constructor(game) {
     this.color = 'white'
 }
 draw(context){
+    while (this.game.gameTime < 1000) {
+      context.fillText('Use the arrows Keys to move, and space to jump', 20, 50)
+    }
     context.save()
     context.fillStyle = this.color
     context.shadowOffsetX = 2
