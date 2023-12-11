@@ -52,7 +52,7 @@ export default class Game {
 
 
   draw(context) {
-   
+   console.log("hello")
     this.camera.apply(context)
     this.background.draw(context)
 
