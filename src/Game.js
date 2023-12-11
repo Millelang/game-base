@@ -44,6 +44,7 @@ export default class Game {
     this.bricks.push(new Brick(this, 400, this.ground - this.brickheight))
     this.bricks.push(new Brick(this, 1050, this.ground - this.brickheight))
     this.bricks.push(new Brick(this, 2500, this.ground - this.brickheight))
+    this.menu = true
 
   }
 
@@ -51,6 +52,7 @@ export default class Game {
 
 
   draw(context) {
+   console.log("hello")
     this.camera.apply(context)
     this.background.draw(context)
 
@@ -63,6 +65,17 @@ export default class Game {
     this.camera.reset(context)
 
     this.Userinterface.draw(context)
+    if (this.menu === true) {
+      context.fillStyle = 'black'
+      context.fillRect(0, 0, this.width, this.height)
+      context.font = '50px Arial'
+      context.fillStyle = 'white'
+      context.textAlign = 'center'
+      context.fillText('Welcome to the game!', this.width / 2, this.height / 2 - 20)
+      context.font = '20px Arial'
+      context.fillText('Press Escape to start', this.width / 2, this.height / 2 + 20)
+      
+    }
   }
 
   update(deltaTime) {
