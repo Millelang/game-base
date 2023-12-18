@@ -1,3 +1,4 @@
+```json
 {
     "team": "Bioniska Cyklister",
     "creators": "Milton Långström",
@@ -7,3 +8,4 @@
     "url": "https://millelang.github.io/game-base/",
     "git": "https://github.com/Millelang/game-base"
 },
+```
